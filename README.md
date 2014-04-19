@@ -1,4 +1,4 @@
-MeetAppPrototype
-================
+MeetApp
+=======
 
 have fun with friends

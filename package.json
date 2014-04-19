@@ -1,0 +1,24 @@
+{
+        "name": "MeetAppPrototypeBackend",
+        "description": "",
+        "version": "0.0.1",
+        "author": "Manuel Naujoks",
+        "dependencies": {
+                "express" : "3.x.x",
+                "mongoose" : "3.x.x",
+                "underscore" : "1.x.x"
+        },
+        "devDependencies": {
+                "node-inspector" : "0.x.x",
+                "mocha" : "1.x.x",
+                "chai" : "1.x.x",
+                "coffee-script": "1.x.x",
+                "supertest": "0.x.x"
+        },
+        "scripts": {
+                "start": "node app.js",
+                "debug": "node --debug app.js",
+                "ni": "node_modules\\.bin\\node-inspector",
+                "test": "mocha -R spec --compilers coffee:coffee-script/register"
+        }
+}
