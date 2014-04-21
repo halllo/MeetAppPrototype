@@ -13,12 +13,19 @@ function ActivityController($scope) {
   $scope.login = function() {
     if ($scope.loginCredentials.username)
     {
+      //TODO: load users activities from server
       $scope.loggedin = true;
     }
     else
     {
-      $scope.loggedin = false;
+      alert('Please enter a username');
     }
+  };
+
+  $scope.logout = function() {
+    $scope.loginCredentials.username = '';
+    $scope.loggedin = false;
+    //TODO: clear activities from view
   };
 
 
