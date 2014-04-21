@@ -1,8 +1,6 @@
 var express = require('express');
 var app = express();
-
 var _ = require('underscore');
-
 var Activities = require('./lib/Activities');
 
 
@@ -12,15 +10,11 @@ var port = process.env.VMC_APP_PORT || process.env.PORT || 1337
 var activities = new Activities(mongodb);
 
 app.configure(function(){
-  app.use(express.bodyParser());
-  app.use(app.router);
+	app.use(express.static(__dirname + '/public'));
+	app.use(express.bodyParser());
+	app.use(app.router);
 });
 app.listen(port);
-
-app.get('/', function(req, res){
-	var response = res;
-	response.send(200, 'MeetApp prototype');
-});
 
 app.get('/activities', function(req, res){
 	var response = res;
