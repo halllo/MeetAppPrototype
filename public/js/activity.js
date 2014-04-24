@@ -29,14 +29,7 @@ function ActivityController($scope) {
   };
 
 
-  $scope.activities = [
-    {
-      name:     'watch a movie', 
-      location: 'Karlsruhe',
-      date:     '2014.04.21',
-      friends:  ['Friend1','Friend2']
-    }
-  ];
+  $scope.activities = [];
 
   $scope.newActivity = {
     name:     '', 
@@ -58,6 +51,13 @@ function ActivityController($scope) {
     $scope.newActivity.date = '';
     $scope.newActivity.friends = '';
   };
+
+  $scope.deleteActivity = function(activity) {
+    var index = $scope.activities.indexOf(activity);
+    if (index > -1) {
+      $scope.activities.splice(index, 1);
+    }
+  }
 
   $scope.getFriends = function(activity) {
     return activity.friends.join(', ');

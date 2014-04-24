@@ -16,12 +16,32 @@ app.configure(function(){
 });
 app.listen(port);
 
+app.get('/users/:user/activities', function(req, res){
+	var response = res;
+	var user = req.params.user
+	activities.ofUser({ user: user }, function (items){
+		response.send(200, {
+			activities: _.map(items, function(item) {
+				return {
+					id: item.id,
+					name: item.name,
+					location: item.location,
+					date: item.date,
+					user: item.user,
+					friends: item.friends
+				};
+			})
+		});
+	});
+});
+
 app.get('/activities', function(req, res){
 	var response = res;
 	activities.all(function (items){
 		response.send(200, {
 			activities: _.map(items, function(item) {
 				return {
+					id: item.id,
 					name: item.name,
 					location: item.location,
 					date: item.date,
@@ -40,12 +60,23 @@ app.put('/activities', function(req, res){
 	activities.create(activity, function (err, activity){
 		if (err) response.send(404, err.message);
 		else response.send(200, {
+			id: activity.id,
 			name: activity.name,
 			location: activity.location,
 			date: activity.date,
 			user: activity.user,
 			friends: activity.friends
 		});
+	});
+});
+
+app.del('/activities/:id', function(req, res){
+	var response = res;
+	var id = req.params.id;
+
+	activities.delete(id, function (err, activity) {
+		if (err) response.send(404, err.message);
+		else response.send(200, id);
 	});
 });
 
