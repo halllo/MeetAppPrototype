@@ -73,10 +73,10 @@ app.put('/activities', function(req, res){
 app.del('/activities/:id', function(req, res){
 	var response = res;
 	var id = req.params.id;
-
+				
 	activities.delete(id, function (err, activity) {
 		if (err) response.send(404, err.message);
-		else response.send(200, id);
+		else response.send(200, { id: id });
 	});
 });
 

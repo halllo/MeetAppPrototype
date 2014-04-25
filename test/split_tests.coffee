@@ -5,6 +5,7 @@ Utility = require '../public/js/utility'
 
 describe 'Utility', ->
 	describe 'split', ->
+		split = (s) -> new Utility(_).split s
 
 		it 'splits "a"', ->
 			splited = split "a"
@@ -26,4 +27,15 @@ describe 'Utility', ->
 			splited = split "a, bandr and c"
 			expect(splited).to.include('a').and.to.include('bandr').and.to.include('c')
 
-	split = (s) -> new Utility(_).split s
+
+
+	describe 'withoutId', ->
+		withoutId = (array, id) -> new Utility(_).withoutId array, id
+
+		it 'removes item with id 1', ->
+			filtered = withoutId [{id: 1}], 1
+			expect(filtered.length).to.be.equal 0
+
+		it 'does not remove item with id 1 when not there', ->
+			filtered = withoutId [{id: 0}], 1
+			expect(filtered.length).to.be.equal 1

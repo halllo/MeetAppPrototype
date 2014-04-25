@@ -23,7 +23,10 @@
           <a class="navbar-brand" href="#">MeetApp Prototype</a>
         </div>
         <div class="navbar-right" ng-show="loggedin">
-          <a id="logoutbutton" class="btn btn-success" role="button" href ng-click="logout()">Log out</a>
+          <p>
+            <span class="navbar-text">Hi {{loginCredentials.username}}</span>
+            <a id="logoutbutton" class="btn btn-success" role="button" href ng-click="logout()">Log out</a>
+          </p>
         </div>
         <div>
           <form class="navbar-form navbar-right" ng-submit="login()" ng-hide="loggedin">
@@ -51,7 +54,10 @@
     <div class="container">
       
       <div ng-hide="loggedin">
-        <h3>Please login to see and create activities.</h3>
+        <h3>Please login to see your activities and plan new ones.</h3>
+      </div>
+      <div ng-show="loggedin">
+        <h3>This are your planned activities.</h3>
       </div>
       
       <div id="activities" class="row" ng-show="loggedin">
@@ -73,7 +79,7 @@
           <form ng-submit="addActivity()">
   	        <input type="text" class="form-control" placeholder="watch a movie" ng-model="newActivity.name" required >
   	        <input type="text" class="form-control" placeholder="Karlsruhe" ng-model="newActivity.location" required>
-  	        <input type="text" class="form-control" placeholder="2014.04.21" ng-model="newActivity.date" required>
+  	        <input type="text" class="form-control" placeholder="{{today}}" ng-model="newActivity.date" required>
   	        <input type="text" class="form-control" placeholder="Friend1, Friend2" ng-model="newActivity.friends" required>
   	        <button type="submit" class="btn btn-primary">
               <i class="glyphicon glyphicon-floppy-disk"></i> Save

@@ -1,4 +1,4 @@
-function ActivityController($scope) {
+function ActivityController($scope, $http) {
   
   var utility = new Utility(_);
 
@@ -13,8 +13,13 @@ function ActivityController($scope) {
   $scope.login = function() {
     if ($scope.loginCredentials.username)
     {
-      //TODO: load users activities from server
+      $scope.activities = [];
       $scope.loggedin = true;
+      $http.get('users/' + $scope.loginCredentials.username + '/activities/').
+        success(function(data) {
+            if ($scope.loggedin)
+              $scope.activities = data.activities;
+        });
     }
     else
     {
@@ -25,7 +30,7 @@ function ActivityController($scope) {
   $scope.logout = function() {
     $scope.loginCredentials.username = '';
     $scope.loggedin = false;
-    //TODO: clear activities from view
+    $scope.activities = [];
   };
 
 
@@ -39,27 +44,41 @@ function ActivityController($scope) {
   };
  
   $scope.addActivity = function() {
-    $scope.activities.push({
+    var newActivity = {
       name:     $scope.newActivity.name,
       location: $scope.newActivity.location,
       date:     $scope.newActivity.date,
+      user:     $scope.loginCredentials.username,
       friends:  utility.split($scope.newActivity.friends)
-    });
-  
-    $scope.newActivity.name = '';
-    $scope.newActivity.location = '';
-    $scope.newActivity.date = '';
-    $scope.newActivity.friends = '';
+    };
+    $http.put('activities/', newActivity).
+        success(function(savedActivity) {
+            if ($scope.loggedin) 
+            {
+              $scope.activities.push(savedActivity);
+              $scope.newActivity.name = '';
+              $scope.newActivity.location = '';
+              $scope.newActivity.date = '';
+              $scope.newActivity.friends = '';
+            }
+        }).error(function (data) {
+          alert(data);
+        });;
   };
 
   $scope.deleteActivity = function(activity) {
-    var index = $scope.activities.indexOf(activity);
-    if (index > -1) {
-      $scope.activities.splice(index, 1);
-    }
+    $http.delete('activities/' + activity.id).
+        success(function(deletedActivity) {
+          if ($scope.loggedin)
+            $scope.activities = utility.withoutId($scope.activities, deletedActivity.id);
+        }).error(function (data) {
+          alert(data);
+        });
   }
 
   $scope.getFriends = function(activity) {
     return activity.friends.join(', ');
   }
+
+  $scope.today = utility.today();
 }
