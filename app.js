@@ -4,10 +4,10 @@ var _ = require('underscore');
 var Activities = require('./lib/Activities');
 
 
-var mongodb = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost/meetappprototype'
+var mongourl = require('./data/mongodburl').generate();
 var port = process.env.VMC_APP_PORT || process.env.PORT || 1337
 
-var activities = new Activities(mongodb);
+var activities = new Activities(mongourl);
 
 app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
